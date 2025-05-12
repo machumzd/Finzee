@@ -1,7 +1,7 @@
 "use client";
-import { Box, Stack, TextField } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
-import { CardWrapper, CustomButton } from "../common/Common.styles";
+import { CardWrapper, CustomButton } from "../../common/Common.styles";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -36,6 +36,8 @@ const LoginComponent = () => {
         if (data.status) {
           alert("Login successful");
           // Save token to localStorage/cookies if needed
+          document.cookie = `token=${data.token}`;
+          localStorage.setItem("token", data.token);
           router.push("/dashboard");
         } else {
           alert("Login failed: " + data.message);
@@ -76,10 +78,13 @@ const LoginComponent = () => {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <Stack direction="row" gap={2}>
-            <CustomButton bgcolor="#00D09E" type="submit">
-              Log In
-            </CustomButton>
+          <Stack
+            direction="row"
+            gap={2}
+            justifyContent="flex-start"
+            width="100%"
+          >
+            <CustomButton type="submit">Log In</CustomButton>
             <CustomButton
               bgcolor="#DFF7E2"
               onClick={() => router.push("/auth/register")}

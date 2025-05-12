@@ -1,32 +1,135 @@
-import { Stack, TextField } from '@mui/material'
-import React from 'react'
+"use client";
+import React from "react";
+import { Stack, TextField, MenuItem } from "@mui/material";
+import { CustomButton, TileWrapper } from "../common/Common.styles";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const AddEntry = () => {
-  return (
-    <Stack>
-        <h3>Add Entry</h3>
-        <TextField 
-        label="Title"
-        variant="filled"
-        />
-        <TextField 
-        label="Amount"
-        variant="filled"
-        />
-        <TextField 
-        label="Type"
-        variant="filled"
-        />
-         <TextField 
-        label="Category"
-        variant="filled"
-        />
-        <TextField 
-        label="Note (optional)"
-        variant="filled"
-        />
-    </Stack>
-  )
-}
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      amount: "",
+      type: "",
+      category: "",
+      note: "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Title is required"),
+      amount: Yup.number()
+        .typeError("Amount must be a number")
+        .positive("Amount must be positive")
+        .required("Amount is required"),
+      type: Yup.string().required("Type is required"),
+      category: Yup.string().required("Category is required"),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const res = await fetch("http://localhost:5000/api/entry", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
 
-export default AddEntry
+        const data = await res.json();
+        if (res.ok) {
+          alert("Entry added successfully!");
+          resetForm();
+        } else {
+          alert(data.message || "Something went wrong");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Network error");
+      }
+    },
+  });
+
+  const types = ["Income", "Expense"];
+  const categories = ["Food", "Transport", "Shopping", "Salary", "Other"];
+
+  return (
+    <TileWrapper>
+      <h3>Add Entry</h3>
+
+      <TextField
+        label="Title"
+        name="title"
+        variant="filled"
+        fullWidth
+        value={formik.values.title}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.title && Boolean(formik.errors.title)}
+        helperText={formik.touched.title && formik.errors.title}
+      />
+
+      <TextField
+        label="Amount"
+        name="amount"
+        variant="filled"
+        fullWidth
+        value={formik.values.amount}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.amount && Boolean(formik.errors.amount)}
+        helperText={formik.touched.amount && formik.errors.amount}
+      />
+
+      <TextField
+        select
+        label="Type"
+        name="type"
+        variant="filled"
+        fullWidth
+        value={formik.values.type}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.type && Boolean(formik.errors.type)}
+        helperText={formik.touched.type && formik.errors.type}
+      >
+        {types.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField
+        select
+        label="Category"
+        name="category"
+        variant="filled"
+        fullWidth
+        value={formik.values.category}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.category && Boolean(formik.errors.category)}
+        helperText={formik.touched.category && formik.errors.category}
+      >
+        {categories.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField
+        label="Note (optional)"
+        name="note"
+        variant="filled"
+        fullWidth
+        multiline
+        value={formik.values.note}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+
+      <CustomButton onClick={() => formik.handleSubmit()}>Submit</CustomButton>
+    </TileWrapper>
+  );
+};
+
+export default AddEntry;

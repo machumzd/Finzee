@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material'
 import React from 'react'
 
-const LoginLayout = ({children}:{children:React.ReactNode}) => {
+const AuthLayout = ({children}:{children:React.ReactNode}) => {
   return (
     <Stack sx={{
         height:"100dvh",
@@ -13,4 +13,4 @@ const LoginLayout = ({children}:{children:React.ReactNode}) => {
   )
 }
 
-export default LoginLayout
+export default AuthLayout
