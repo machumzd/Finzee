@@ -1,12 +1,11 @@
 "use client";
-import { Box, Stack, TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 import React from "react";
 import { CardWrapper, CustomButton } from "../../common/Common.styles";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { baseUrl } from "@/config/api";
-
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -15,7 +14,7 @@ const validationSchema = Yup.object({
     .min(6, "Minimum 6 characters")
     .required("Password is required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .oneOf([Yup.ref("password"), ""], "Passwords must match")
     .required("Confirm Password is required"),
 });
 
@@ -125,10 +124,7 @@ const RegisterComponent = () => {
             justifyContent="flex-start"
             width="100%"
           >
-            <CustomButton
-              type="submit"
-              disabled={formik.isSubmitting}
-            >
+            <CustomButton type="submit" disabled={formik.isSubmitting}>
               Sign Up
             </CustomButton>
             <CustomButton

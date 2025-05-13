@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Stack, Typography, CircularProgress } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import {
   AnalysisAmount,
   AnalysisWrapper,
@@ -14,9 +14,8 @@ const DashboardComponent = () => {
     totalExpense: 0,
     balance: 0,
   });
-  const [error, setError] = useState("");
 
-   const fetchDashboardData = async () => {
+  const fetchDashboardData = async () => {
     try {
       const headers = await getHeaders();
       const res = await fetch(`${baseUrl}/api/transaction/analysis`, {
@@ -29,7 +28,7 @@ const DashboardComponent = () => {
         setDashboardData(data.analysis);
       }
     } catch (err) {
-      setError("Failed to load dashboard data.");
+      console.log(err);
     }
   };
 

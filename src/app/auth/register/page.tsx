@@ -1,4 +1,3 @@
-import LoginComponent from "@/components/auth/login";
 import RegisterComponent from "@/components/auth/register";
 import { Typography } from "@mui/material";
 import React from "react";

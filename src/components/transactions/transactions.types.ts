@@ -1,4 +1,4 @@
-interface TransactionProps {
+export interface TransactionProps {
     id: string;
     userId: string;
     amount: number;

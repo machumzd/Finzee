@@ -11,7 +11,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
+import { TransactionProps } from "./transactions.types";
 
 const TransactionsComponent = () => {
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);

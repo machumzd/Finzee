@@ -1,4 +1,4 @@
-import { Box, ListItem, styled } from "@mui/material";
+import { ListItem, styled } from "@mui/material";
 
 export const CategoryWrapper = styled(ListItem)({
   backgroundColor: "#DFF7E2",
@@ -7,6 +7,6 @@ export const CategoryWrapper = styled(ListItem)({
   fontWeight: 600,
   color: "#093030",
   borderRadius: 30,
-  width:"max-content",
+  width: "max-content",
   textTransform: "capitalize",
 });

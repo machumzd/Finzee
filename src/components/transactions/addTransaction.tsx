@@ -59,7 +59,7 @@ const AddTransaction = () => {
   useEffect(() => {
     if (categoriesCheck.length > 0) {
       const categoriesList = categoriesCheck.map(
-        (category: any) => category.name
+        (category: { name: string }) => category.name
       );
       setCategories(categoriesList);
     }

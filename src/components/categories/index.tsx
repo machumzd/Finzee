@@ -1,6 +1,7 @@
 "use client";
-import { List, ListItem, Stack, TextField } from "@mui/material";
-import React, { use, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { List, ListItem, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -53,14 +54,15 @@ const CategoriesComponent = () => {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
+        const headers = await getHeaders();
         await fetch(`${baseUrl}/api/category/add`, {
           method: "POST",
-          headers: headers,
+          headers,
           body: JSON.stringify({ name: values.category }),
         });
 
         setCategoriesData((prev) => [...prev, values.category]);
-        await dispatch(addCategory({ name: values.category }));
+        await dispatch(addCategory({ id: Math.random().toString(), name: values.category }));
         resetForm();
         setIsAddCategoryClicked(false);
       } catch (err) {

@@ -2,7 +2,7 @@ import AddTransaction from "@/components/transactions/addTransaction";
 import CategoriesComponent from "@/components/categories";
 import DashboardComponent from "@/components/dashboard";
 import TransactionsComponent from "@/components/transactions";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import React from "react";
 import AddBudget from "@/components/budget/addBudget";
 import BudgetComponent from "@/components/budget";

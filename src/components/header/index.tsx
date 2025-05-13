@@ -2,7 +2,6 @@
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { CustomButton } from "../common/Common.styles";
 
 const Header = () => {
   const router = useRouter();
