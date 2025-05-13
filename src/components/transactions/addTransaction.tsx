@@ -1,11 +1,17 @@
 "use client";
-import React from "react";
-import { Stack, TextField, MenuItem } from "@mui/material";
+import React, { useEffect } from "react";
+import { TextField, MenuItem } from "@mui/material";
 import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
+import { selectCategories } from "@/store/categories.slice";
+import { baseUrl, getHeaders } from "@/config/api";
 
-const AddEntry = () => {
+const AddTransaction = () => {
+  const [categories, setCategories] = React.useState<string[]>(["koo"]);
+  const categoriesCheck = useSelector(selectCategories);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -25,17 +31,18 @@ const AddEntry = () => {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const res = await fetch("http://localhost:5000/api/entry", {
+        const headers = await getHeaders();
+        const res = await fetch(`${baseUrl}/api/transaction/add`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers,
           body: JSON.stringify(values),
         });
 
         const data = await res.json();
+
         if (res.ok) {
           alert("Entry added successfully!");
+          window.location.reload();
           resetForm();
         } else {
           alert(data.message || "Something went wrong");
@@ -48,7 +55,15 @@ const AddEntry = () => {
   });
 
   const types = ["Income", "Expense"];
-  const categories = ["Food", "Transport", "Shopping", "Salary", "Other"];
+
+  useEffect(() => {
+    if (categoriesCheck.length > 0) {
+      const categoriesList = categoriesCheck.map(
+        (category: any) => category.name
+      );
+      setCategories(categoriesList);
+    }
+  }, [categoriesCheck]);
 
   return (
     <TileWrapper>
@@ -132,4 +147,4 @@ const AddEntry = () => {
   );
 };
 
-export default AddEntry;
+export default AddTransaction;

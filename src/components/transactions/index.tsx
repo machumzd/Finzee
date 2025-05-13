@@ -1,13 +1,28 @@
 "use client";
-import { baseUrl } from "@/config/api";
+import { baseUrl, getHeaders } from "@/config/api";
 import React, { useEffect, useState } from "react";
+import { TileWrapper } from "../common/Common.styles";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import * as dayjs from "dayjs";
 
 const TransactionsComponent = () => {
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);
 
   const getTransactions = async () => {
     try {
-      const res = await fetch(`${baseUrl}/transactions`);
+      const headers = await getHeaders();
+      const res = await fetch(`${baseUrl}/api/transaction`, {
+        method: "GET",
+        headers,
+      });
       const data = await res.json();
       if (data?.status) {
         setTransactions(data.transactions);
@@ -22,14 +37,47 @@ const TransactionsComponent = () => {
   }, []);
 
   return (
-    <div>
+    <TileWrapper>
       <h3>transactions</h3>
-      <ul>
-        {transactions.map((transaction) => (
-          <li key={transaction.id}>{transaction.id}</li>
-        ))}
-      </ul>
-    </div>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650,borderRadius:"20px"}} aria-label="simple table">
+          <TableHead sx={{
+            backgroundColor: "#DFF7E2",
+            borderRadius: "20px",
+          }}>
+            <TableRow>
+              <TableCell>Category</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell align="right">Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {transactions.map((row, index) => (
+              <TableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.category}
+                </TableCell>
+                <TableCell>
+                  {dayjs(row.createdAt).format("DD/MM/YYYY")}
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{
+                    color: row.type === "Income" ? "#00D09E" : "#FF4D4D",
+                    fontWeight: 600,
+                  }}
+                >
+                  {row.amount}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </TileWrapper>
   );
 };
 

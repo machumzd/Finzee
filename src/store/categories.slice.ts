@@ -32,7 +32,7 @@ export const { setCategories, addCategory } = categoriesSlice.actions;
 
 // Selectors
 export const selectCategories = (state: RootState) =>
-  state.categories.categories;
+  state.categories?.categories || [];
 export const selectCategoryById = (categoryId: string) => (state: RootState) =>
   state.categories.categories.find(
     (category: Category) => category.id === categoryId

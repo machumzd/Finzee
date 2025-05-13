@@ -6,28 +6,30 @@ import {
   AnalysisWrapper,
   DashboardWrapper,
 } from "./dashboard.styles";
-import { baseUrl } from "@/config/api";
+import { baseUrl, getHeaders } from "@/config/api";
 
 const DashboardComponent = () => {
   const [dashboardData, setDashboardData] = useState({
-    income: 0,
-    expense: 0,
+    totalIncome: 0,
+    totalExpense: 0,
     balance: 0,
   });
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchDashboardData = async () => {
+   const fetchDashboardData = async () => {
     try {
-      setLoading(true);
-      const res = await fetch(`${baseUrl}/api/dashboard`);
+      const headers = await getHeaders();
+      const res = await fetch(`${baseUrl}/api/transaction/analysis`, {
+        method: "GET",
+        headers,
+      });
       if (!res.ok) throw new Error("Failed to fetch data");
       const data = await res.json();
-      setDashboardData(data);
+      if (data?.status) {
+        setDashboardData(data.analysis);
+      }
     } catch (err) {
       setError("Failed to load dashboard data.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -35,31 +37,26 @@ const DashboardComponent = () => {
     fetchDashboardData();
   }, []);
 
-  if (loading)
-    return (
-      <Stack alignItems="center" mt={5}>
-        <CircularProgress />
-      </Stack>
-    );
-
   return (
     <DashboardWrapper>
       <h3>Analysis</h3>
       <Stack gap={2} flexDirection="row" justifyContent="space-between">
         <AnalysisWrapper>
           <Typography>Total Income</Typography>
-          <AnalysisAmount variant="h5">₹{dashboardData.income}</AnalysisAmount>
+          <AnalysisAmount variant="h5">
+            ₹ {dashboardData.totalIncome}
+          </AnalysisAmount>
         </AnalysisWrapper>
         <AnalysisWrapper>
           <Typography>Total Expense</Typography>
           <AnalysisAmount variant="h5" color="#0068FF">
-            ₹{dashboardData.expense}
+            ₹ {dashboardData.totalExpense}
           </AnalysisAmount>
         </AnalysisWrapper>
         <AnalysisWrapper>
           <Typography>Balance</Typography>
           <AnalysisAmount variant="h5" color="#0068FF">
-            ₹{dashboardData.balance}
+            ₹ {dashboardData.balance}
           </AnalysisAmount>
         </AnalysisWrapper>
       </Stack>

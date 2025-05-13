@@ -17,6 +17,7 @@
     "@mui/material": "^7.0.2",
     "@mui/material-nextjs": "^7.0.2",
     "@reduxjs/toolkit": "^2.8.1",
+    "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "next": "15.3.0",
     "react": "^19.0.0",

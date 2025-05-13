@@ -12,6 +12,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: "Poppins, sans-serif",
     allVariants: {
       color: "#093030",
     },

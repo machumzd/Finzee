@@ -4,29 +4,28 @@ import React, { use, useEffect, useState } from "react";
 import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { baseUrl } from "@/config/api";
-import { CategoryWrapper } from "./Categories.styles";
+import { baseUrl, getHeaders } from "@/config/api";
+import { CategoryWrapper } from "./categories.styles";
 import { useDispatch } from "react-redux";
-
-let token: string | null = null;
-if (typeof window !== "undefined") {
-  token = localStorage.getItem("token");
-}
+import { AppDispatch } from "@/store";
+import { addCategory, setCategories } from "@/store/categories.slice";
 
 const CategoriesComponent = () => {
-  const [addCategory, setAddCategory] = useState(false);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [isAddCategoryClicked, setIsAddCategoryClicked] = useState(false);
+  const [categoriesData, setCategoriesData] = useState<string[]>([]);
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+
+  const dispatchCategory = (categories: []) => {
+    dispatch(setCategories(categories));
+  };
 
   const fetchCategories = async () => {
     try {
+      const headers = await getHeaders();
       const response = await fetch(`${baseUrl}/api/category`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       });
 
       if (!response.ok) {
@@ -37,8 +36,9 @@ const CategoriesComponent = () => {
       const formattedCategories = category.map(
         (cat: { name: string }) => cat.name
       );
-      setCategories(formattedCategories);
-      await dispatch(setCategories(formattedCategories));
+
+      setCategoriesData(formattedCategories);
+      await dispatchCategory(category);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     }
@@ -55,16 +55,14 @@ const CategoriesComponent = () => {
       try {
         await fetch(`${baseUrl}/api/category/add`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: headers,
           body: JSON.stringify({ name: values.category }),
         });
 
-        setCategories((prev) => [...prev, values.category]);
+        setCategoriesData((prev) => [...prev, values.category]);
+        await dispatch(addCategory({ name: values.category }));
         resetForm();
-        setAddCategory(false);
+        setIsAddCategoryClicked(false);
       } catch (err) {
         console.error("Failed to add category:", err);
       }
@@ -87,8 +85,8 @@ const CategoriesComponent = () => {
           gap: 1,
         }}
       >
-        {categories.length > 0 ? (
-          categories.map((cat, index) => (
+        {categoriesData.length > 0 ? (
+          categoriesData.map((cat, index) => (
             <CategoryWrapper key={index}>{cat}</CategoryWrapper>
           ))
         ) : (
@@ -96,7 +94,7 @@ const CategoriesComponent = () => {
         )}
       </List>
 
-      {addCategory ? (
+      {isAddCategoryClicked ? (
         <form onSubmit={formik.handleSubmit}>
           <TextField
             label="Add Category"
@@ -114,7 +112,7 @@ const CategoriesComponent = () => {
           <CustomButton type="submit">Submit</CustomButton>
         </form>
       ) : (
-        <CustomButton onClick={() => setAddCategory(true)}>
+        <CustomButton onClick={() => setIsAddCategoryClicked(true)}>
           Add Category
         </CustomButton>
       )}

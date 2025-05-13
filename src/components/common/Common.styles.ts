@@ -32,7 +32,7 @@ export const TileWrapper = styled(Stack)({
   backgroundColor: "#ffffff",
   borderRadius: "30px",
   padding: "2rem",
-  height: "100%",
+  height: "fit-content",
   gap: 16,
   width: "100%",
 });

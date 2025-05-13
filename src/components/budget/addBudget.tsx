@@ -4,13 +4,24 @@ import { Stack, TextField, MenuItem } from "@mui/material";
 import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { baseUrl, getHeaders } from "@/config/api";
 
 const months = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
-const BudgetComponent = () => {
+const AddBudget = () => {
   const formik = useFormik({
     initialValues: {
       month: "",
@@ -25,9 +36,10 @@ const BudgetComponent = () => {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const res = await fetch("http://localhost:5000/api/budget", {
+        const headers = await getHeaders();
+        const res = await fetch(`${baseUrl}/api/budget/add`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify(values),
         });
 
@@ -46,10 +58,7 @@ const BudgetComponent = () => {
   });
 
   return (
-    <TileWrapper
-      component="form"
-      onSubmit={formik.handleSubmit}
-    >
+    <TileWrapper>
       <h3>Add Budget</h3>
 
       <TextField
@@ -83,9 +92,9 @@ const BudgetComponent = () => {
         helperText={formik.touched.amount && formik.errors.amount}
       />
 
-      <CustomButton type="submit">Submit</CustomButton>
+      <CustomButton onClick={() => formik.handleSubmit()}>Submit</CustomButton>
     </TileWrapper>
   );
 };
 
-export default BudgetComponent;
+export default AddBudget;

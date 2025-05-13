@@ -3,7 +3,7 @@ interface TransactionProps {
     userId: string;
     amount: number;
     category: string;
-    date: string;
+    createdAt: string;
     note?: string;
     type: string;
   }
