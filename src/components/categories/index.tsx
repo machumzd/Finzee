@@ -6,7 +6,7 @@ import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { baseUrl, getHeaders } from "@/config/api";
-import { CategoryWrapper } from "./categories.styles";
+import { CategoryWrapper } from "./category.styles";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { addCategory, setCategories } from "@/store/categories.slice";
