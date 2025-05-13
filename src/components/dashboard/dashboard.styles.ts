@@ -6,14 +6,14 @@ export const AnalysisWrapper = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
-  padding: "1rem",
-  width: "100%",
 });
 
 export const DashboardWrapper = styled(Stack)({
   backgroundColor: "#DFF7E2",
   borderRadius: "30px",
   padding: "2rem",
+  height: "fit-content",
+  gap: 16,
 });
 
 export const AnalysisAmount = styled(Typography)({

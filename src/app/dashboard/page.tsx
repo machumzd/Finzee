@@ -9,7 +9,7 @@ import BudgetComponent from "@/components/budget";
 
 const dashboard = () => {
   return (
-    <Stack p={4} flexWrap={"wrap"} gap={3} flexDirection={"row"}>
+    <Stack p={"auto"} flexWrap="wrap" gap={3} flexDirection={"row"}>
       <Stack direction={"column"} gap={3} p={3} flex={1}>
         <DashboardComponent />
         <BudgetComponent />

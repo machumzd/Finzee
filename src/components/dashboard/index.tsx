@@ -39,23 +39,29 @@ const DashboardComponent = () => {
   return (
     <DashboardWrapper>
       <h3>Analysis</h3>
-      <Stack gap={2} flexDirection="row" justifyContent="space-between">
+      <Stack
+        flex={1}
+        flexWrap={"wrap"}
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems={"flex-start"}
+      >
         <AnalysisWrapper>
           <Typography>Total Income</Typography>
           <AnalysisAmount variant="h5">
-            ₹ {dashboardData.totalIncome}
+            ₹{dashboardData.totalIncome}
           </AnalysisAmount>
         </AnalysisWrapper>
         <AnalysisWrapper>
           <Typography>Total Expense</Typography>
           <AnalysisAmount variant="h5" color="#0068FF">
-            ₹ {dashboardData.totalExpense}
+            ₹{dashboardData.totalExpense}
           </AnalysisAmount>
         </AnalysisWrapper>
         <AnalysisWrapper>
           <Typography>Balance</Typography>
           <AnalysisAmount variant="h5" color="#0068FF">
-            ₹ {dashboardData.balance}
+            ₹{dashboardData.balance}
           </AnalysisAmount>
         </AnalysisWrapper>
       </Stack>
