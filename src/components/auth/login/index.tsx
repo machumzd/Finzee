@@ -50,8 +50,8 @@ const LoginComponent = () => {
   });
 
   return (
-    <Stack>
-      <form onSubmit={formik.handleSubmit}>
+    <Stack >
+      <form onSubmit={formik.handleSubmit} >
         <CardWrapper>
           <TextField
             label="Email"
