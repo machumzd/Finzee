@@ -4,12 +4,12 @@ import React from "react";
 
 const Login = () => {
   return (
-    <div>
+    <>
       <Typography variant="h1" textAlign={"center"} pb={2}>
         Create Account
       </Typography>
       <RegisterComponent />
-    </div>
+    </>
   );
 };
 

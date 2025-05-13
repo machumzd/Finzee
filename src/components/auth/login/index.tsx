@@ -50,50 +50,49 @@ const LoginComponent = () => {
   });
 
   return (
-    <Stack >
-      <form onSubmit={formik.handleSubmit} >
-        <CardWrapper>
-          <TextField
-            label="Email"
-            fullWidth
-            variant="filled"
-            placeholder="example@example.com"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            label="Password"
-            fullWidth
-            variant="filled"
-            placeholder="password"
-            type="password"
-            name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <Stack
-            direction="row"
-            gap={2}
-            justifyContent="flex-start"
-            width="100%"
+    <Stack width={"100%"} alignItems={"center"}>
+      <CardWrapper>
+        <TextField
+          label="Email"
+          fullWidth
+          variant="filled"
+          placeholder="example@example.com"
+          name="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        <TextField
+          label="Password"
+          fullWidth
+          variant="filled"
+          placeholder="password"
+          type="password"
+          name="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+        <Stack direction="row" gap={2} justifyContent="flex-start" width="100%">
+          <CustomButton
+            type="submit"
+            disabled={formik.isSubmitting}
+            onClick={() => formik.handleSubmit()}
           >
-            <CustomButton type="submit">Log In</CustomButton>
-            <CustomButton
-              bgcolor="#DFF7E2"
-              onClick={() => router.push("/auth/register")}
-            >
-              Sign Up
-            </CustomButton>
-          </Stack>
-        </CardWrapper>
-      </form>
+            Log In
+          </CustomButton>
+          <CustomButton
+            bgcolor="#DFF7E2"
+            onClick={() => router.push("/auth/register")}
+          >
+            Sign Up
+          </CustomButton>
+        </Stack>
+      </CardWrapper>
     </Stack>
   );
 };

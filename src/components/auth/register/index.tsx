@@ -60,82 +60,81 @@ const RegisterComponent = () => {
   });
 
   return (
-    <Stack>
-      <form onSubmit={formik.handleSubmit}>
-        <CardWrapper>
-          <TextField
-            label="Name"
-            fullWidth
-            variant="filled"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            name="name"
-            onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-            placeholder="John Doe"
-          />
-          <TextField
-            label="Email"
-            fullWidth
-            variant="filled"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            name="email"
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            placeholder="example@example.com"
-          />
-          <TextField
-            label="Password"
-            fullWidth
-            variant="filled"
-            type="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            name="password"
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            placeholder="password"
-          />
-          <TextField
-            label="Confirm Password"
-            fullWidth
-            variant="filled"
-            type="password"
-            onChange={formik.handleChange}
-            value={formik.values.confirmPassword}
-            name="confirmPassword"
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.confirmPassword &&
-              Boolean(formik.errors.confirmPassword)
-            }
-            helperText={
-              formik.touched.confirmPassword && formik.errors.confirmPassword
-            }
-            placeholder="confirm password"
-          />
-          <Stack
-            direction={"row"}
-            gap={2}
-            justifyContent="flex-start"
-            width="100%"
+    <Stack width={"100%"} alignItems={"center"}>
+      <CardWrapper>
+        <TextField
+          label="Name"
+          fullWidth
+          variant="filled"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+          name="name"
+          onBlur={formik.handleBlur}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          placeholder="John Doe"
+        />
+        <TextField
+          label="Email"
+          fullWidth
+          variant="filled"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          name="email"
+          onBlur={formik.handleBlur}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          placeholder="example@example.com"
+        />
+        <TextField
+          label="Password"
+          fullWidth
+          variant="filled"
+          type="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          name="password"
+          onBlur={formik.handleBlur}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          placeholder="password"
+        />
+        <TextField
+          label="Confirm Password"
+          fullWidth
+          variant="filled"
+          type="password"
+          onChange={formik.handleChange}
+          value={formik.values.confirmPassword}
+          name="confirmPassword"
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.confirmPassword &&
+            Boolean(formik.errors.confirmPassword)
+          }
+          helperText={
+            formik.touched.confirmPassword && formik.errors.confirmPassword
+          }
+          placeholder="confirm password"
+        />
+        <Stack
+          direction={"row"}
+          gap={2}
+          justifyContent="flex-start"
+          width="100%"
+        >
+          <CustomButton
+            type="submit"
+            disabled={formik.isSubmitting}
+            onClick={() => formik.handleSubmit()}
           >
-            <CustomButton type="submit" disabled={formik.isSubmitting}>
-              Sign Up
-            </CustomButton>
-            <CustomButton
-              bgcolor="#DFF7E2"
-              onClick={() => router.push("/auth")}
-            >
-              Log In
-            </CustomButton>
-          </Stack>
-        </CardWrapper>
-      </form>
+            Sign Up
+          </CustomButton>
+          <CustomButton bgcolor="#DFF7E2" onClick={() => router.push("/auth")}>
+            Log In
+          </CustomButton>
+        </Stack>
+      </CardWrapper>
     </Stack>
   );
 };
