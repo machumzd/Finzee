@@ -41,11 +41,13 @@ const TransactionsComponent = () => {
     <TileWrapper>
       <h3>transactions</h3>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650,borderRadius:"20px"}} aria-label="simple table">
-          <TableHead sx={{
-            backgroundColor: "#DFF7E2",
-            borderRadius: "20px",
-          }}>
+        <Table sx={{ borderRadius: "20px" }} aria-label="simple table">
+          <TableHead
+            sx={{
+              backgroundColor: "#DFF7E2",
+              borderRadius: "20px",
+            }}
+          >
             <TableRow>
               <TableCell>Category</TableCell>
               <TableCell>Date</TableCell>
