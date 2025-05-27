@@ -1,11 +1,12 @@
 "use client";
-import { Stack, TextField } from "@mui/material";
-import React from "react";
+import { CircularProgress, Stack, TextField } from "@mui/material";
+import React, { useState } from "react";
 import { CardWrapper, CustomButton } from "../../common/Common.styles";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { baseUrl } from "@/config/api";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -20,6 +21,7 @@ const validationSchema = Yup.object({
 
 const RegisterComponent = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +37,7 @@ const RegisterComponent = () => {
         email: values.email.trim(),
         password: values.password,
       };
-
+      setLoading(true);
       try {
         const response = await fetch(`${baseUrl}/api/auth/add`, {
           method: "POST",
@@ -47,14 +49,16 @@ const RegisterComponent = () => {
 
         const data = await response.json();
         if (data.status) {
-          alert("User registered successfully!");
+          toast.success("Registration successful");
           router.push("/auth");
         } else {
-          alert("Error: " + data.message);
+          toast.error(data.message || "Registration failed");
         }
       } catch (error) {
         console.error("Registration failed:", error);
-        alert("Something went wrong. Please try again.");
+        toast.error("Registration failed. Please try again.");
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -125,12 +129,20 @@ const RegisterComponent = () => {
         >
           <CustomButton
             type="submit"
-            disabled={formik.isSubmitting}
+            disabled={loading}
             onClick={() => formik.handleSubmit()}
           >
-            Sign Up
+            {loading ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              "Sign Up"
+            )}
           </CustomButton>
-          <CustomButton bgcolor="#DFF7E2" onClick={() => router.push("/auth")}>
+          <CustomButton
+            disabled={loading}
+            bgcolor="#DFF7E2"
+            onClick={() => router.push("/auth")}
+          >
             Log In
           </CustomButton>
         </Stack>

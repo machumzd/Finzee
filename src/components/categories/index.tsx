@@ -10,6 +10,7 @@ import { CategoryWrapper } from "./category.styles";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { addCategory, setCategories } from "@/store/categories.slice";
+import { toast } from "react-toastify";
 
 const CategoriesComponent = () => {
   const [isAddCategoryClicked, setIsAddCategoryClicked] = useState(false);
@@ -39,7 +40,7 @@ const CategoriesComponent = () => {
       );
 
       setCategoriesData(formattedCategories);
-      await dispatchCategory(category);
+      dispatchCategory(category);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     }
@@ -62,11 +63,13 @@ const CategoriesComponent = () => {
         });
 
         setCategoriesData((prev) => [...prev, values.category]);
-        await dispatch(addCategory({ id: Math.random().toString(), name: values.category }));
+        dispatch(addCategory({ id: Math.random().toString(), name: values.category }));
         resetForm();
         setIsAddCategoryClicked(false);
+        toast.success("Category added successfully!");
       } catch (err) {
         console.error("Failed to add category:", err);
+        toast.error("Failed to add category. Please try again.");
       }
     },
   });

@@ -4,13 +4,14 @@ import { TextField, MenuItem } from "@mui/material";
 import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useSelector } from "react-redux";
 import { selectCategories } from "@/store/categories.slice";
 import { baseUrl, getHeaders } from "@/config/api";
+import { useAppSelector } from "@/store/hooks";
+import { toast } from "react-toastify";
 
 const AddTransaction = () => {
-  const [categories, setCategories] = React.useState<string[]>(["koo"]);
-  const categoriesCheck = useSelector(selectCategories);
+  const [categories, setCategories] = React.useState<string[]>([""]);
+  const categoriesCheck = useAppSelector(selectCategories);
 
   const formik = useFormik({
     initialValues: {
@@ -41,15 +42,15 @@ const AddTransaction = () => {
         const data = await res.json();
 
         if (res.ok) {
-          alert("Entry added successfully!");
+          toast.success("Transaction added successfully!");
           window.location.reload();
           resetForm();
         } else {
-          alert(data.message || "Something went wrong");
+          toast.error(data.message || "Failed to add transaction");
         }
       } catch (err) {
         console.error("Error:", err);
-        alert("Network error");
+        toast.error("An error occurred while adding the transaction");
       }
     },
   });

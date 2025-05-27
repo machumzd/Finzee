@@ -1,14 +1,16 @@
 "use client";
-import { Stack, TextField } from "@mui/material";
-import React from "react";
+import { CircularProgress, Stack, TextField } from "@mui/material";
+import React, { useState } from "react";
 import { CardWrapper, CustomButton } from "../../common/Common.styles";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { baseUrl } from "@/config/api";
+import { toast } from "react-toastify";
 
 const LoginComponent = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -24,6 +26,7 @@ const LoginComponent = () => {
         .required("Password is required"),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       try {
         const response = await fetch(`${baseUrl}/api/auth/login`, {
           method: "POST",
@@ -34,17 +37,18 @@ const LoginComponent = () => {
         const data = await response.json();
 
         if (data.status) {
-          alert("Login successful");
-          // Save token to localStorage/cookies if needed
+          toast.success("Login successful");
           document.cookie = `token=${data.token}`;
           localStorage.setItem("token", data.token);
           router.push("/dashboard");
         } else {
-          alert("Login failed: " + data.message);
+          toast.error(data.message || "Login failed");
         }
       } catch (error) {
         console.error("Login error:", error);
-        alert("Something went wrong.");
+        toast.error("An error occurred during login. Please try again.");
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -80,13 +84,18 @@ const LoginComponent = () => {
         <Stack direction="row" gap={2} justifyContent="flex-start" width="100%">
           <CustomButton
             type="submit"
-            disabled={formik.isSubmitting}
+            disabled={loading}
             onClick={() => formik.handleSubmit()}
           >
-            Log In
+            {loading ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              "Log In"
+            )}
           </CustomButton>
           <CustomButton
             bgcolor="#DFF7E2"
+            disabled={loading}
             onClick={() => router.push("/auth/register")}
           >
             Sign Up

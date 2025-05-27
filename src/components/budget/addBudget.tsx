@@ -5,6 +5,7 @@ import { CustomButton, TileWrapper } from "../common/Common.styles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { baseUrl, getHeaders } from "@/config/api";
+import { toast } from "react-toastify";
 
 const months = [
   "January",
@@ -45,14 +46,15 @@ const AddBudget = () => {
 
         const data = await res.json();
         if (res.ok) {
-          alert("Budget added successfully!");
+          toast.success("Budget added successfully!");
+          window.location.reload();
           resetForm();
         } else {
-          alert(data.message || "Something went wrong");
+          toast.error(data.message || "Failed to add budget");
         }
       } catch (err) {
         console.error("Error:", err);
-        alert("Network error");
+        toast.error("An error occurred while adding the budget");
       }
     },
   });
